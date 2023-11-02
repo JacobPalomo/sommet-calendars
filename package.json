@@ -1,14 +1,26 @@
 {
   "name": "sommet-calendars",
   "version": "1.0.0",
-  "description": "",
+  "description": "Te permite obtener dos tipos de calendarios: el calendario de un Mes y los calendarios de un Año.",
   "main": "dist/index.js",
   "keywords": [
-    "Calendar"
+    "Calendars",
+    "Sommet"
   ],
   "author": "Jacob Palomo",
   "license": "ISC",
   "devDependencies": {
     "typescript": "^5.2.2"
-  }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JacobPalomo/sommet-calendars.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JacobPalomo/sommet-calendars/issues"
+  },
+  "homepage": "https://github.com/JacobPalomo/sommet-calendars#readme"
 }
