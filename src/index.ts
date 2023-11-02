@@ -180,8 +180,3 @@ export class Year {
 		return this.months
 	}
 }
-
-const calendar = new Year(2023).nextYear().nextYear().nextYear().getMonths()
-calendar.map((month) =>
-	console.log(month.getName(), month.getYear(), month.getCalendar())
-)
