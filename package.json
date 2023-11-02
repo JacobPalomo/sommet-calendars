@@ -1,14 +1,14 @@
 {
-  "name": "calendars",
+  "name": "sommet-calendars",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [
     "Calendar"
   ],
   "author": "Jacob Palomo",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
 }
