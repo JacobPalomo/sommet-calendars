@@ -1,74 +1,72 @@
-export class Calendar {
+class Day {
+	private date: Date
+	private today: boolean
+
+	constructor(date: Date) {
+		const today = new Date()
+
+		this.date = date
+		this.today =
+			date.getFullYear() === today.getFullYear() &&
+			date.getMonth() === today.getMonth() &&
+			date.getDate() === today.getDate()
+	}
+
+	public toDate() {
+		return this.date
+	}
+
+	public isToday() {
+		return this.today
+	}
+}
+
+class Month {
+	private name: string
 	private month: number
 	private year: number
+	private calendar: Array<Day>
+	private monthDays: number
+	private names = [
+		'Enero',
+		'Febrero',
+		'Marzo',
+		'Abril',
+		'Mayo',
+		'Junio',
+		'Julio',
+		'Agosto',
+		'Septiembre',
+		'Octubre',
+		'Noviembre',
+		'Diciembre',
+	]
+	private shortNames = [
+		'Ene',
+		'Feb',
+		'Mar',
+		'Abr',
+		'May',
+		'Jun',
+		'Jul',
+		'Ago',
+		'Sep',
+		'Oct',
+		'Nov',
+		'Dic',
+	]
 
-	private validateMonth(month: number): void {
-		if (month < 0 || month > 11)
-			throw new Error(
-				'El numero de més debe ser mayor o igual que 0 y menor o igual que 11.'
-			)
-	}
-
-	constructor(month: number, year: number) {
-		this.validateMonth(month)
-
-		this.month = month
-		this.year = year
-	}
-
-	public nextMonth(): void {
-		if (this.month <= 10) {
-			this.month += 1
-		} else {
-			this.month = 0
-			this.year += 1
-		}
-	}
-
-	public prevMonth(): void {
-		if (this.month >= 1) {
-			this.month -= 1
-		} else {
-			this.month = 11
-			this.year -= 1
-		}
-	}
-
-	public getMonth(): number {
-		return this.month
-	}
-
-	public setMonth(month: number): void {
-		this.validateMonth(month)
-
-		this.month = month
-	}
-
-	public getYear(): number {
-		return this.year
-	}
-
-	public setYear(year: number): void {
-		this.year = year
-	}
-
-	public getMonthDays(): number {
-		const lastDayMonth = new Date(this.year, this.month + 1, 0)
-
-		return lastDayMonth.getDate()
-	}
-
-	public getMonthCalendar(): Array<number> {
+	private setCalendar(): Array<Day> {
 		const firstDay: Date = new Date(this.year, this.month, 1)
 		const lastDay: Date = new Date(this.year, this.month + 1, 0)
 		const firstWeekday: number = firstDay.getDay()
 		const lastWeekday: number = lastDay.getDay()
 		const prevDays: number = firstWeekday === 0 ? 6 : firstWeekday - 1
 		const nextDays: number = lastWeekday === 0 ? 0 : 7 - lastWeekday
-		const calendar: Array<number> = []
+		const calendar: Array<Day> = []
 
 		const date: Date = firstDay
-		const monthDays: number = this.getMonthDays() + prevDays + nextDays - 1
+		const monthDays: number = this.monthDays + prevDays + nextDays - 1
 		let iterableDate: Date = new Date(
 			date.getFullYear(),
 			date.getMonth(),
@@ -76,7 +74,7 @@ export class Calendar {
 		)
 
 		for (let i = 0; i < monthDays; i++) {
-			calendar.push(iterableDate.getDate())
+			calendar.push(new Day(iterableDate))
 
 			iterableDate = new Date(
 				iterableDate.getFullYear(),
@@ -87,4 +85,103 @@ export class Calendar {
 
 		return calendar
 	}
+
+	private setMonthDays(): number {
+		const lastDayMonth = new Date(this.year, this.month + 1, 0)
+
+		return lastDayMonth.getDate()
+	}
+
+	constructor(
+		year: number,
+		month: number,
+		options?: { nameSize: 'short' | 'normal' }
+	) {
+		if (options && options.nameSize === 'short')
+			this.name = this.shortNames[month]
+		else this.name = this.names[month]
+
+		this.year = year
+		this.month = month
+		this.monthDays = this.setMonthDays()
+		this.calendar = this.setCalendar()
+	}
+
+	public getName(): string {
+		return this.name
+	}
+
+	public getMonth(): number {
+		return this.month
+	}
+
+	public getYear(): number {
+		return this.year
+	}
+
+	public getCalendar(): Array<Day> {
+		return this.calendar
+	}
+
+	public getMonthDays(): number {
+		return this.monthDays
+	}
 }
+
+export class Year {
+	private year: number
+	private months: Array<Month>
+
+	private setMonths(): Array<Month> {
+		const monthCalendars: Array<Month> = []
+		for (let month = 0; month < 12; month++) {
+			const monthCalendar = new Month(this.year, month)
+			monthCalendars.push(monthCalendar)
+		}
+
+		return monthCalendars
+	}
+
+	constructor(year: number) {
+		this.year = year
+		this.months = this.setMonths()
+	}
+
+	public getYear(): number {
+		return this.year
+	}
+
+	public setYear(year: number): Year {
+		this.year = year
+		this.months = this.setMonths()
+
+		return this
+	}
+
+	public getMonth(month: number): Month {
+		return this.months[month]
+	}
+
+	public nextYear(): Year {
+		this.year++
+		this.months = this.setMonths()
+
+		return this
+	}
+
+	public prevYear(): Year {
+		this.year--
+		this.months = this.setMonths()
+
+		return this
+	}
+
+	public getMonths(): Array<Month> {
+		return this.months
+	}
+}
+
+const calendar = new Year(2023).nextYear().nextYear().nextYear().getMonths()
+calendar.map((month) =>
+	console.log(month.getName(), month.getYear(), month.getCalendar())
+)
