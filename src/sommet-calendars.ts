@@ -18,18 +18,27 @@ export class Day {
 	private mdWeekdays = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb']
 	private smWeekdays = ['D', 'L', 'M', 'X', 'J', 'V', 'S', 'D']
 
-	constructor(date: Date) {
+	constructor(date?: Date) {
 		const today = new Date()
 
-		this.date = date
-		this.day = date.getDate()
-		this.month = date.getMonth()
-		this.year = date.getFullYear()
-		this.weekday = date.getDay()
-		this.today =
-			date.getFullYear() === today.getFullYear() &&
-			date.getMonth() === today.getMonth() &&
-			date.getDate() === today.getDate()
+		if (date) {
+			this.date = date
+			this.day = date.getDate()
+			this.month = date.getMonth()
+			this.year = date.getFullYear()
+			this.weekday = date.getDay()
+			this.today =
+				date.getFullYear() === today.getFullYear() &&
+				date.getMonth() === today.getMonth() &&
+				date.getDate() === today.getDate()
+		} else {
+			this.date = today
+			this.day = today.getDate()
+			this.month = today.getMonth()
+			this.year = today.getFullYear()
+			this.weekday = today.getDay()
+			this.today = true
+		}
 	}
 
 	public getDay(): number {
@@ -148,10 +157,14 @@ export class Month {
 		this.calendar = this.setCalendar()
 	}
 
-	constructor(year: number, month: number) {
-		this.name = this.names[month]
-		this.year = year
-		this.month = month
+	constructor(year?: number, month?: number) {
+		if (year) this.year = year
+		else this.year = new Date().getFullYear()
+
+		if (month) this.month = month
+		else this.month = new Date().getMonth()
+
+		this.name = this.names[this.month]
 		this.monthDays = this.setMonthDays()
 		this.calendar = this.setCalendar()
 	}
@@ -233,8 +246,10 @@ export class Year {
 		return monthCalendars
 	}
 
-	constructor(year: number) {
-		this.year = year
+	constructor(year?: number) {
+		if (year) this.year = year
+		else this.year = new Date().getFullYear()
+
 		this.months = this.setMonths()
 	}
 
