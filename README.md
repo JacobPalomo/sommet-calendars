@@ -23,7 +23,6 @@ yarn add sommet-calendars
 ```js
 var smtc = require('sommet-calemdars')
 
-// Year
 var year = new smtc.Year(2023) // Inicializa un año (Year)
 var currentYear = year.getYear() // Devuelve el año del objeto
 var months = year.getMonths() // Devuelve un arreglo de objetos Month
@@ -113,7 +112,7 @@ const prevMonth = month.getPrevMonth() // Devuelve un nuevo objeto Month del mes
 
 ```js
 const days = month.getCalendar()
-days.map((day) => console.log(day.toDate))
+days.map((day) => console.log(day.toDate()))
 ```
 
 #### Day
