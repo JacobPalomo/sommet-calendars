@@ -1,43 +1,61 @@
+const MONTHS = [
+	'Enero',
+	'Febrero',
+	'Marzo',
+	'Abril',
+	'Mayo',
+	'Junio',
+	'Julio',
+	'Agosto',
+	'Septiembre',
+	'Octubre',
+	'Noviembre',
+	'Diciembre',
+]
+const MD_MONTHS = [
+	'Ene',
+	'Feb',
+	'Mar',
+	'Abr',
+	'May',
+	'Jun',
+	'Jul',
+	'Ago',
+	'Sep',
+	'Oct',
+	'Nov',
+	'Dic',
+]
+const WEEKDAYS = [
+	'Domingo',
+	'Lunes',
+	'Martes',
+	'Miércoles',
+	'Jueves',
+	'Viernes',
+	'Sábado',
+]
+const MD_WEEKDAYS = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb']
+const SM_WEEKDAYS = ['D', 'L', 'M', 'X', 'J', 'V', 'S', 'D']
+
 export class Day {
-	private date: Date
 	private day: number
 	private month: number
 	private year: number
 	private weekday: number
-	private today: boolean
-
-	private weekdays = [
-		'Domingo',
-		'Lunes',
-		'Martes',
-		'Miércoles',
-		'Jueves',
-		'Viernes',
-		'Sábado',
-	]
-	private mdWeekdays = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb']
-	private smWeekdays = ['D', 'L', 'M', 'X', 'J', 'V', 'S', 'D']
 
 	constructor(date?: Date) {
-		const today = new Date()
-
 		if (date) {
-			this.date = date
 			this.day = date.getDate()
 			this.month = date.getMonth()
 			this.year = date.getFullYear()
 			this.weekday = date.getDay()
-			this.today =
-				date.getFullYear() === today.getFullYear() &&
-				date.getMonth() === today.getMonth() &&
-				date.getDate() === today.getDate()
 		} else {
-			this.date = today
+			const today = new Date()
 			this.day = today.getDate()
 			this.month = today.getMonth()
 			this.year = today.getFullYear()
 			this.weekday = today.getDay()
-			this.today = true
 		}
 	}
 
@@ -61,22 +79,26 @@ export class Day {
 		let weekdayName
 
 		if (options)
-			if (options.size === 'md')
-				weekdayName = this.mdWeekdays[this.weekday]
+			if (options.size === 'md') weekdayName = MD_WEEKDAYS[this.weekday]
 			else if (options.size === 'sm')
-				weekdayName = this.smWeekdays[this.weekday]
-			else weekdayName = this.weekdays[this.weekday]
-		else weekdayName = this.weekdays[this.weekday]
+				weekdayName = SM_WEEKDAYS[this.weekday]
+			else weekdayName = WEEKDAYS[this.weekday]
+		else weekdayName = WEEKDAYS[this.weekday]
 
 		return weekdayName
 	}
 
 	public toDate(): Date {
-		return this.date
+		return new Date(this.year, this.month, this.day)
 	}
 
 	public isToday(): boolean {
-		return this.today
+		const date = new Date()
+		return (
+			date.getFullYear() === this.year &&
+			date.getMonth() === this.month &&
+			date.getDate() === this.day
+		)
 	}
 }
 
@@ -86,34 +108,6 @@ export class Month {
 	private year: number
 	private calendar: Array<Day>
 	private monthDays: number
-	private names = [
-		'Enero',
-		'Febrero',
-		'Marzo',
-		'Abril',
-		'Mayo',
-		'Junio',
-		'Julio',
-		'Agosto',
-		'Septiembre',
-		'Octubre',
-		'Noviembre',
-		'Diciembre',
-	]
-	private mdNames = [
-		'Ene',
-		'Feb',
-		'Mar',
-		'Abr',
-		'May',
-		'Jun',
-		'Jul',
-		'Ago',
-		'Sep',
-		'Oct',
-		'Nov',
-		'Dic',
-	]
 
 	private setCalendar(): Array<Day> {
 		const firstDay: Date = new Date(this.year, this.month, 1)
@@ -152,7 +146,7 @@ export class Month {
 	}
 
 	private updateMonth(): void {
-		this.name = this.names[this.month]
+		this.name = MONTHS[this.month]
 		this.monthDays = this.setMonthDays()
 		this.calendar = this.setCalendar()
 	}
@@ -164,7 +158,7 @@ export class Month {
 		if (month) this.month = month
 		else this.month = new Date().getMonth()
 
-		this.name = this.names[this.month]
+		this.name = MONTHS[this.month]
 		this.monthDays = this.setMonthDays()
 		this.calendar = this.setCalendar()
 	}
@@ -172,7 +166,7 @@ export class Month {
 	public getName(options?: { size: 'md' | 'lg' }): string {
 		let name = this.name
 
-		if (options && options.size === 'md') name = this.mdNames[this.month]
+		if (options && options.size === 'md') name = MD_MONTHS[this.month]
 
 		return name
 	}

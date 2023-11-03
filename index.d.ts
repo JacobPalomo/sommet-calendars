@@ -1,14 +1,9 @@
 declare module 'sommet-calendars' {
 	export class Day {
-		private date: Date
 		private day: number
 		private month: number
 		private year: number
 		private weekday: number
-		private today: boolean
-		private weekdays: Array<string>
-		private mdWeekdays: Array<string>
-		private smWeekdays: Array<string>
 
 		constructor(date?: Date)
 
@@ -27,8 +22,6 @@ declare module 'sommet-calendars' {
 		private year: number
 		private calendar: Array<Day>
 		private monthDays: number
-		private names: Array<string>
-		private mdNames: Array<string>
 
 		private setCalendar(): Array<Day>
 		private setMonthDays(): number
