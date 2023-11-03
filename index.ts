@@ -45,7 +45,7 @@ export class Day {
 	private weekday: number
 
 	constructor(date?: Date) {
-		if (date) {
+		if (date !== undefined) {
 			this.day = date.getDate()
 			this.month = date.getMonth()
 			this.year = date.getFullYear()
@@ -152,10 +152,10 @@ export class Month {
 	}
 
 	constructor(year?: number, month?: number) {
-		if (year) this.year = year
+		if (year !== undefined) this.year = year
 		else this.year = new Date().getFullYear()
 
-		if (month) this.month = month
+		if (month !== undefined) this.month = month
 		else this.month = new Date().getMonth()
 
 		this.name = MONTHS[this.month]
@@ -241,7 +241,7 @@ export class Year {
 	}
 
 	constructor(year?: number) {
-		if (year) this.year = year
+		if (year !== undefined) this.year = year
 		else this.year = new Date().getFullYear()
 
 		this.months = this.setMonths()
