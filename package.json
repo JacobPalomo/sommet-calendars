@@ -1,6 +1,6 @@
 {
   "name": "sommet-calendars",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Te permite obtener dos tipos de calendarios: el calendario de un Mes y los calendarios de un Año.",
   "main": "dist/index.js",
   "keywords": [
