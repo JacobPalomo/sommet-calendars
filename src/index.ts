@@ -1,27 +1,77 @@
-class Day {
+export class Day {
 	private date: Date
+	private day: number
+	private month: number
+	private year: number
+	private weekday: number
 	private today: boolean
+
+	private weekdays = [
+		'Domingo',
+		'Lunes',
+		'Martes',
+		'Miércoles',
+		'Jueves',
+		'Viernes',
+		'Sábado',
+	]
+	private mdWeekdays = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb']
+	private smWeekdays = ['D', 'L', 'M', 'X', 'J', 'V', 'S', 'D']
 
 	constructor(date: Date) {
 		const today = new Date()
 
 		this.date = date
+		this.day = date.getDate()
+		this.month = date.getMonth()
+		this.year = date.getFullYear()
+		this.weekday = date.getDay()
 		this.today =
 			date.getFullYear() === today.getFullYear() &&
 			date.getMonth() === today.getMonth() &&
 			date.getDate() === today.getDate()
 	}
 
-	public toDate() {
+	public getDay(): number {
+		return this.day
+	}
+
+	public getMonth(): number {
+		return this.month
+	}
+
+	public getYear(): number {
+		return this.year
+	}
+
+	public getWeekday(): number {
+		return this.weekday
+	}
+
+	public getWeekdayName(options?: { size: 'lg' | 'md' | 'sm' }): string {
+		let weekdayName
+
+		if (options)
+			if (options.size === 'md')
+				weekdayName = this.mdWeekdays[this.weekday]
+			else if (options.size === 'sm')
+				weekdayName = this.smWeekdays[this.weekday]
+			else weekdayName = this.weekdays[this.weekday]
+		else weekdayName = this.weekdays[this.weekday]
+
+		return weekdayName
+	}
+
+	public toDate(): Date {
 		return this.date
 	}
 
-	public isToday() {
+	public isToday(): boolean {
 		return this.today
 	}
 }
 
-class Month {
+export class Month {
 	private name: string
 	private month: number
 	private year: number
@@ -41,7 +91,7 @@ class Month {
 		'Noviembre',
 		'Diciembre',
 	]
-	private shortNames = [
+	private mdNames = [
 		'Ene',
 		'Feb',
 		'Mar',
@@ -66,7 +116,7 @@ class Month {
 		const calendar: Array<Day> = []
 
 		const date: Date = firstDay
-		const monthDays: number = this.monthDays + prevDays + nextDays - 1
+		const monthDays: number = this.monthDays + prevDays + nextDays
 		let iterableDate: Date = new Date(
 			date.getFullYear(),
 			date.getMonth(),
@@ -92,23 +142,64 @@ class Month {
 		return lastDayMonth.getDate()
 	}
 
-	constructor(
-		year: number,
-		month: number,
-		options?: { nameSize: 'short' | 'normal' }
-	) {
-		if (options && options.nameSize === 'short')
-			this.name = this.shortNames[month]
-		else this.name = this.names[month]
+	private updateMonth(): void {
+		this.name = this.names[this.month]
+		this.monthDays = this.setMonthDays()
+		this.calendar = this.setCalendar()
+	}
 
+	constructor(year: number, month: number) {
+		this.name = this.names[month]
 		this.year = year
 		this.month = month
 		this.monthDays = this.setMonthDays()
 		this.calendar = this.setCalendar()
 	}
 
-	public getName(): string {
-		return this.name
+	public getName(options?: { size: 'md' | 'lg' }): string {
+		let name = this.name
+
+		if (options && options.size === 'md') name = this.mdNames[this.month]
+
+		return name
+	}
+
+	public nextMonth(): Month {
+		if (this.month === 11) {
+			this.year++
+			this.month = 0
+		} else this.month++
+
+		this.updateMonth()
+
+		return this
+	}
+
+	public getNextMonth(): Month {
+		let nextMonth
+		if (this.month === 11) nextMonth = new Month(this.year + 1, 0)
+		else nextMonth = new Month(this.year, this.month + 1)
+
+		return nextMonth
+	}
+
+	public prevMonth(): Month {
+		if (this.month === 0) {
+			this.year--
+			this.month = 11
+		} else this.month--
+
+		this.updateMonth()
+
+		return this
+	}
+
+	public getPrevMonth(): Month {
+		let prevMonth
+		if (this.month === 0) prevMonth = new Month(this.year - 1, 11)
+		else prevMonth = new Month(this.year, this.month - 1)
+
+		return prevMonth
 	}
 
 	public getMonth(): number {
