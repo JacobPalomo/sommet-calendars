@@ -1,15 +1,8 @@
 # Sommet Calendars
 
----
-
-Obtiene dos tipos de calendarios:
-
--   Anual - Trae todos los calendarios de un año.
--   Mensual - Trae el calendario de un mes.
+Te permite generar el calendario de un mes o los calendarios de todo un año. Así como facilitarte la obtención de algunas propiedades útiles para realizar operaciones con fechas.
 
 ## Instalación
-
----
 
 #### npm
 
@@ -25,11 +18,7 @@ yarn add sommet-calendars
 
 ## Uso
 
----
-
-### Year
-
----
+#### Year
 
 ```js
 var smtc = require('sommet-calemdars')
@@ -63,14 +52,14 @@ year.nextYear() // Cambia al año siguiente (2051) y devuelve el mismo objeto Ye
 year.prevYear() // Cambia al año anterior (2050) y devuelve el mismo año
 ```
 
-#### Imprimiendo los meses de un año
+##### Imprimiendo los meses de un año
 
 ```js
 const yearMonths = year.getMonths()
 yearMonths.map((month) => console.log(month))
 ```
 
-#### Imprimiendo todos los días del año
+##### Imprimiendo todos los días del año
 
 ```js
 yearMonths.map((month) => {
@@ -79,13 +68,13 @@ yearMonths.map((month) => {
 })
 ```
 
-### Month
-
----
+#### Month
 
 ```js
-// Month
+var smtc = require('sommet-calendars')
+
 var month = new smtc.Month(2023, 0) // Obtiene el mes de Enero del 2023
+
 var monthName = month.getName() // Devuelve el nombre completo del mes (Enero)
 var monthNum = month.getMonth() // Devuelve el mes en formato de numero (0)
 var monthNameNormal = month.getName({ size: 'normal' }) // Devuelve el nombre completo del mes (Enero)
@@ -104,8 +93,9 @@ o si estas usando ES6:
 
 ```js
 import { Month } from 'sommet-calendars'
-// Month
+
 const month = new Month(2023, 0) // Obtiene el mes de Enero del 2023
+
 const monthName = month.getName() // Devuelve el nombre completo del mes (Enero)
 const monthNum = month.getMonth() // Devuelve el mes en formato de numero (0)
 const monthNameNormal = month.getName({ size: 'normal' }) // Devuelve el nombre completo del mes (Enero)
@@ -115,20 +105,39 @@ const monthYear = month.getYear() // Devulve el año al que pertenece este mes (
 const monthCalendar = month.getCalendar() // Obtiene el calendario de Enero del 2023
 month.nextMonth() // Actualiza el mes al siguiente (Febrero 2023)
 month.prevMonth() // Actualiza el mes al anterior (Enero 2023)
-const nextMonth = month.getNextMonth() // Obtiene el siguiente mes devolviendo un nuevo objeto Month (Febrero 2023)
-const prevMonth = month.getPrevMonth() // Obtiene el mes anterior devolviendo un nuevo objeto Month (Diciembre 2022)
+const nextMonth = month.getNextMonth() // Devuelve un nuevo objeto Month del siguiente mes (Febrero 2023) sin actualizar el objeto principal.
+const prevMonth = month.getPrevMonth() // Devuelve un nuevo objeto Month del mes anterior (Diciembre 2022) sin actualizar el objeto principal.
 ```
 
-#### Imprimiendo los días de un mes
+##### Imprimiendo los días de un mes
 
 ```js
 const days = month.getCalendar()
 days.map((day) => console.log(day.toDate))
 ```
 
-### Day
+#### Day
 
----
+```js
+var smtc = require('sommet-calendars')
+
+var date = new Date()
+var day = new smtc.Day(date) // Inicializa un objeto Day
+
+var dayNumber = day.getDay() // Devuelve el número del día
+var dayMonth = day.getMonth() // Devuelve el número del mes
+var dayYear = day.getYear() // Devuelve el número del año
+var weekday = day.getWeekday() // Devuelve el número del día de la semana al que pertenece
+var weekdayName = day.getWeekdayName() // Devuelve el nombre del día de la semana al que pertenece el día
+var weekdayLgName = day.getWeekdayName({ size: 'lg' }) // Devuelve el nombre completo (Jueves) del día de la semana al que pertenece el día
+var weekdayMdName = day.getWeekdayName({ size: 'md' }) // Devuelve el nombre de tamaño mediano (Jue) del día de la semana al que pertenece el día
+var weekdaySmName = day.getWeekdayName({ size: 'sm' }) // Devuelve el nombre de tamaño chico (J) del día de la semana al que pertenece el día
+day.isToday() // Comprueba si el día es hoy o no
+day.toDate() // Devuelve el día en un objeto Date
+```
+
+Si están utlizando ES6:
+<br/>
 
 ```js
 import { Day } from 'sommet-calendars'
@@ -136,14 +145,14 @@ import { Day } from 'sommet-calendars'
 const date = new Date()
 const day = new Day(date) // Inicializa un objeto Day
 
-day.getDay() // Devuelve el número del día
-day.getMonth() // Devuelve el número del mes
-day.getYear() // Devuelve el número del año
-day.getWeekday() // Devuelve el número del día de la semana al que pertenece
-day.getWeekdayName() // Devuelve el nombre del día de la semana al que pertenece el día
-day.getWeekdayName({ size: 'lg' }) // Devuelve el nombre completo (Miércoles) del día de la semana al que pertenece el día
-day.getWeekdayName({ size: 'md' }) // Devuelve el nombre de tamaño mediano (Mié) del día de la semana al que pertenece el día
-day.getWeekdayName({ size: 'md' }) // Devuelve el nombre de tamaño chico (X) del día de la semana al que pertenece el día
+const dayNumber = day.getDay() // Devuelve el número del día
+const dayMonth = day.getMonth() // Devuelve el número del mes
+const dayYear = day.getYear() // Devuelve el número del año
+const weekday = day.getWeekday() // Devuelve el número del día de la semana al que pertenece
+const weekdayName = day.getWeekdayName() // Devuelve el nombre del día de la semana al que pertenece el día
+const weekdayLgName = day.getWeekdayName({ size: 'lg' }) // Devuelve el nombre completo (Jueves) del día de la semana al que pertenece el día
+const weekdayMdName = day.getWeekdayName({ size: 'md' }) // Devuelve el nombre de tamaño mediano (Jue) del día de la semana al que pertenece el día
+const weekdaySmName = day.getWeekdayName({ size: 'sm' }) // Devuelve el nombre de tamaño chico (J) del día de la semana al que pertenece el día
 day.isToday() // Comprueba si el día es hoy o no
 day.toDate() // Devuelve el día en un objeto Date
 ```
@@ -160,9 +169,7 @@ console.log(tomorrow.isToday()) // Output: false
 
 ## Ejemplo de formatos de nombres
 
----
-
-### Month
+#### Month
 
 <table>
 	<th>Opción</th>
@@ -182,7 +189,7 @@ console.log(tomorrow.isToday()) // Output: false
 	</tbody>
 </table>
 
-### Weekday
+#### Weekday
 
 <table>
 	<th>Opción</th>
@@ -211,9 +218,7 @@ console.log(tomorrow.isToday()) // Output: false
 
 ## Listas de nombres
 
----
-
-### Months
+#### Months
 
 <table>
 	<th>Mes</th>
@@ -283,7 +288,7 @@ console.log(tomorrow.isToday()) // Output: false
 	</tbody>
 </table>
 
-### Weekdays
+#### Weekdays
 
 <table>
 	<thead>
@@ -342,11 +347,9 @@ console.log(tomorrow.isToday()) // Output: false
 
 ## Ejemplo de Calendario
 
----
-
 Así es como se generan los días que están en el siguiente calendario. Incluyendo los días del mes anterior y el siguiente para que se genere el cuadro completo:
 
-### Noviembre 2023
+#### Noviembre 2023
 
 <table>
 	<thead>
@@ -409,8 +412,8 @@ Así es como se generan los días que están en el siguiente calendario. Incluye
 
 Así es como se ve el arreglo de los días (`Date[]`) generados:
 
-<img src="https://github.com/JacobPalomo/sommet-calendars/blob/main/readme-assets/nov-days-toDate.png" style="height: 350px"></img>
+<img src="https://github.com/JacobPalomo/sommet-calendars/blob/main/readme-assets/nov-days-toDate.png" style="height: 350px" alt="Imágen con el arreglo de fechas generadas."></img>
 
-y así es como se un arreglo de los numeros de los días (`number[]`):
+y así es como se ve un arreglo de los numeros de los días (`number[]`):
 
-<img src="https://github.com/JacobPalomo/sommet-calendars/blob/main/readme-assets/nov-days-getDay.png" style="height: 159px"></img>
+<img src="https://github.com/JacobPalomo/sommet-calendars/blob/main/readme-assets/nov-days-getDay.png" style="height: 159px" alt="Imágen con el arreglo de números generados."></img>
