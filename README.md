@@ -409,8 +409,8 @@ Así es como se generan los días que están en el siguiente calendario. Incluye
 
 Así es como se ve el arreglo de los días (`Date[]`) generados:
 
-<img src="./readme-assets/nov-days-toDate.png" style="height: 350px"></img>
+<img src="https://github.com/JacobPalomo/sommet-calendars/blob/main/readme-assets/nov-days-toDate.png" style="height: 350px"></img>
 
 y así es como se un arreglo de los numeros de los días (`number[]`):
 
-<img src="./readme-assets/nov-days-getDay.png" style="height: 159px"></img>
+<img src="https://github.com/JacobPalomo/sommet-calendars/blob/main/readme-assets/nov-days-getDay.png" style="height: 159px"></img>
